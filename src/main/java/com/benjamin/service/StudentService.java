@@ -1,6 +1,6 @@
 package com.benjamin.service;
 
-import com.benjamin.dao.StudentDao;
+import com.benjamin.repository.StudentRepository;
 import com.benjamin.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 public class StudentService {
 
     @Autowired
-    StudentDao studentDao;
+    StudentRepository studentRepository;
 
     public Student getStudentByName(String studentName) {
         Student student = new Student();
         try {
-            student = studentDao.getStudentByName(studentName);
+            student = studentRepository.getStudentByName(studentName);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -23,10 +23,10 @@ public class StudentService {
     }
 
     public void addStudent(Student student) {
-        studentDao.save(student);
+        studentRepository.save(student);
     }
 
     public int removeStudent(String studentName) {
-        return studentDao.updateStudentStatusByName(studentName);
+        return studentRepository.updateStudentStatusByName(studentName);
     }
 }

@@ -1,5 +1,6 @@
-package com.benjamin.dao;
+package com.benjamin.repository;
 
+import com.benjamin.dto.CourseTimeDto;
 import com.benjamin.entity.Course;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,8 +9,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Repository
-public interface CourseDao extends JpaRepository<Course, Integer> {
+public interface CourseRepository extends JpaRepository<Course, Integer> {
 
     @Modifying
     @Transactional
@@ -35,4 +39,10 @@ public interface CourseDao extends JpaRepository<Course, Integer> {
     @Transactional
     @Query("UPDATE Course c SET c.courseNote = :courseNote WHERE c.courseId = :courseId")
     int updateCourseNoteById(@Param("courseNote") String courseNote, @Param("courseId") int courseId);
+
+    @Query("SELECT c FROM Course c JOIN Schedule s ON c.courseId = s.courseId WHERE s.scheduleTime = :scheduleTime")
+    List<Course> getCourseByTime(@Param("scheduleTime") LocalDateTime scheduleTime);
+
+    @Query(value = "SELECT c.*, sc.schedule_time from course c join schedule sc on c.course_id = sc.course_id", nativeQuery = true)
+    List<CourseTimeDto> getAllCourseWithTime();
 }

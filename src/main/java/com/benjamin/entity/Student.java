@@ -1,9 +1,6 @@
 package com.benjamin.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +10,7 @@ public class Student {
 
     @Id
     @Column(name = "student_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int studentId;
 
     @Column(name = "student_name")
@@ -25,7 +23,7 @@ public class Student {
     private LocalDateTime studentBirth;
 
     @Column(name = "student_status")
-    private boolean studentStatus;
+    private int studentStatus;
 
     public int getStudentId() {
         return studentId;
@@ -59,18 +57,18 @@ public class Student {
         this.studentBirth = studentBirth;
     }
 
-    public boolean isStudentStatus() {
+    public int getStudentStatus() {
         return studentStatus;
     }
 
-    public void setStudentStatus(boolean studentStatus) {
+    public void setStudentStatus(int studentStatus) {
         this.studentStatus = studentStatus;
     }
 
     public Student() {
     }
 
-    public Student(int studentId, String studentName, String studentGrade, LocalDateTime studentBirth, boolean studentStatus) {
+    public Student(int studentId, String studentName, String studentGrade, LocalDateTime studentBirth, int studentStatus) {
         this.studentId = studentId;
         this.studentName = studentName;
         this.studentGrade = studentGrade;

@@ -1,9 +1,6 @@
 package com.benjamin.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +10,7 @@ public class Schedule {
 
     @Id
     @Column(name = "schedule_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int scheduleId;
 
     @Column(name = "student_id")
@@ -54,6 +52,16 @@ public class Schedule {
 
     public void setScheduleTime(LocalDateTime scheduleTime) {
         this.scheduleTime = scheduleTime;
+    }
+
+    public Schedule(int scheduleId, int studentId, int courseId, LocalDateTime scheduleTime) {
+        this.scheduleId = scheduleId;
+        this.studentId = studentId;
+        this.courseId = courseId;
+        this.scheduleTime = scheduleTime;
+    }
+
+    public Schedule() {
     }
 
     @Override
