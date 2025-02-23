@@ -49,8 +49,7 @@ public class ScheduleService {
     }
 
     public List<StudentCourseScheduleDto> getAllStudentCourseScheduleDto(String date) {
-        String dateParam = "2025-02";
-        String[] parts = dateParam.split("-");
+        String[] parts = date.split("-");
         int year = Integer.parseInt(parts[0]);
         int month = Integer.parseInt(parts[1]);
         return scheduleRepository.getAllStudentCourseScheduleDto(year, month);

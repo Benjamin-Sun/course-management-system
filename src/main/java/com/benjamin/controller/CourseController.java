@@ -3,6 +3,9 @@ package com.benjamin.controller;
 import com.benjamin.dto.CourseTimeDto;
 import com.benjamin.entity.Course;
 import com.benjamin.service.CourseService;
+import com.fasterxml.jackson.databind.JsonNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +17,7 @@ import java.util.List;
 @RequestMapping("course")
 public class CourseController {
 
+    private static final Logger log = LoggerFactory.getLogger(CourseController.class);
     @Autowired
     CourseService courseService;
 
@@ -49,7 +53,11 @@ public class CourseController {
 
     @PostMapping("/addCourseNote")
     @ResponseBody
-    public int addCourseNote(@RequestBody String courseNote, int courseId) {
+    public int addCourseNote(@RequestBody JsonNode params) {
+        String courseNote = String.valueOf(params.get("courseNote"));
+        int courseId = Integer.parseInt(String.valueOf(params.get("courseId")));
+        log.info("courseId is: " + courseId);
+        log.info("courseNote is: " + courseNote);
         return courseService.addCourseNote(courseNote, courseId);
     }
 
