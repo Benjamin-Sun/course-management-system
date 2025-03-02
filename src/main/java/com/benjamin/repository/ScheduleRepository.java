@@ -36,7 +36,8 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
             "WHERE sch.studentId = s.studentId " +
             "  AND sch.courseId = c.courseId " +
             "  AND YEAR(sch.scheduleTime) = :year " +
-            "  AND MONTH(sch.scheduleTime) = :month")
+            "  AND MONTH(sch.scheduleTime) = :month" +
+            " ORDER BY sch.scheduleTime ASC")
     List<StudentCourseScheduleDto> getAllStudentCourseScheduleDto(
             @Param("year") int year,
             @Param("month") int month
