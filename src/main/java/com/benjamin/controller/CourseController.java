@@ -4,6 +4,7 @@ import com.benjamin.dto.CourseTimeDto;
 import com.benjamin.entity.Course;
 import com.benjamin.service.CourseService;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +28,15 @@ public class CourseController {
         return courseService.getCourseByTime(scheduleTime);
     }
 
-    @GetMapping("/updateCourseStatus")
+    @PostMapping("/updateCourseStatus")
     @ResponseBody
-    public int updateCourseStatusById(int courseId) {
-        return courseService.updateCourseStatusById(courseId);
+    public int updateCourseStatusById(@RequestBody String params) {
+        JSONObject json = new JSONObject(params);
+        int courseId = json.getInt("courseId");
+        int courseStatus = json.getInt("courseStatus");
+        log.info("courseId is: " + courseId);
+        log.info("courseStatus is: " + courseStatus);
+        return courseService.updateCourseStatusById(courseId, courseStatus);
     }
 
     @GetMapping("/updateCourseFee")
@@ -53,18 +59,31 @@ public class CourseController {
 
     @PostMapping("/addCourseNote")
     @ResponseBody
-    public int addCourseNote(@RequestBody JsonNode params) {
-        String courseNote = String.valueOf(params.get("courseNote"));
-        int courseId = Integer.parseInt(String.valueOf(params.get("courseId")));
+    public int addCourseNote(@RequestBody String params) {
+        JSONObject json = new JSONObject(params);
+        String courseNote = json.getString("courseNote");
+        int courseId = json.getInt("courseId");
         log.info("courseId is: " + courseId);
         log.info("courseNote is: " + courseNote);
         return courseService.addCourseNote(courseNote, courseId);
     }
 
-//    @GetMapping("/getAllCourse")
-//    @ResponseBody
-//    public List<CourseTimeDto> getAllCourses() {
-//        return courseService.getAllCourseWithTime();
-//    }
+    @GetMapping("/getCourseById")
+    @ResponseBody
+    public Course getCourseById (int courseId) {
+        return courseService.getCourseById(courseId);
+    }
+
+    @GetMapping("/rescheduleCourse")
+    @ResponseBody
+    public int reScheduleCourseTime(int courseId, LocalDateTime newTime) {
+        return courseService.updateCourseTimeById(newTime, courseId);
+    }
+
+    @GetMapping("/getTotalFeeForToday")
+    @ResponseBody
+    public int getTotalFeeForToday() {
+        return courseService.getTotalFeeForToday();
+    }
 
 }

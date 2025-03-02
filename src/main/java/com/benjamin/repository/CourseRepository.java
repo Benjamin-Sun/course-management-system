@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,8 +18,8 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE Course c SET c.courseStatus = 1 WHERE c.courseId = :courseId")
-    int updateCourseStatusById(@Param("courseId") int courseId);
+    @Query("UPDATE Course c SET c.courseStatus = :courseStatus WHERE c.courseId = :courseId")
+    int updateCourseStatusById(@Param("courseId") int courseId, @Param("courseStatus") int courseStatus);
 
     @Modifying
     @Transactional
@@ -45,4 +46,11 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 
     @Query(value = "SELECT c.*, sc.schedule_time from course c join schedule sc on c.course_id = sc.course_id", nativeQuery = true)
     List<CourseTimeDto> getAllCourseWithTime();
+
+    @Query("UPDATE Schedule s SET s.scheduleTime = :newTime WHERE s.courseId = :courseId")
+    int updateCourseTimeById(@Param("newTime") LocalDateTime newTime, @Param("courseId") int courseId);
+
+//    @Query("SELECT SUM(c.courseFee) FROM Course c JOIN Schedule s ON c.courseId = s.courseId WHERE FUNCTION('DATE', s.scheduleTime) = :today")
+    @Query(value = "SELECT sum(c.course_fee) FROM course c JOIN schedule s on c.course_id = s.course_id WHERE DATE(s.schedule_time) = :today", nativeQuery = true)
+    int getTotalFeeForToday(@Param("today") LocalDate today);
 }

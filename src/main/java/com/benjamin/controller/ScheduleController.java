@@ -30,11 +30,11 @@ public class ScheduleController {
 
     @PostMapping("/addSchedule")
     @ResponseBody
-    public void addSchedule(@RequestBody ScheduleRequestPo scheduleRequestPo) {
+    public String addSchedule(@RequestBody ScheduleRequestPo scheduleRequestPo) {
         String studentName = scheduleRequestPo.getStudentName();
         List<Course> courseList = scheduleRequestPo.getCourseList();
         List<LocalDateTime> scheduleTimeList = scheduleRequestPo.getScheduleTimeList();
-        scheduleService.addSchedule(studentName,scheduleTimeList,courseList);
+        return scheduleService.addSchedule(studentName,scheduleTimeList,courseList);
     }
 
     @GetMapping("/getAllStudentCourseAndTimeByMonth")
