@@ -47,6 +47,8 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     @Query(value = "SELECT c.*, sc.schedule_time from course c join schedule sc on c.course_id = sc.course_id", nativeQuery = true)
     List<CourseTimeDto> getAllCourseWithTime();
 
+    @Modifying
+    @Transactional
     @Query("UPDATE Schedule s SET s.scheduleTime = :newTime WHERE s.courseId = :courseId")
     int updateCourseTimeById(@Param("newTime") LocalDateTime newTime, @Param("courseId") int courseId);
 

@@ -10,7 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @CrossOrigin
@@ -76,8 +79,14 @@ public class CourseController {
 
     @GetMapping("/rescheduleCourse")
     @ResponseBody
-    public int reScheduleCourseTime(int courseId, LocalDateTime newTime) {
-        return courseService.updateCourseTimeById(newTime, courseId);
+    public int reScheduleCourseTime(int courseId, String newTime) {
+        log.info("newTime is: " + newTime);
+//        LocalDateTime formatTime = Instant.ofEpochMilli(newTime)
+//                .atZone(ZoneId.systemDefault())
+//                .toLocalDateTime();
+//        log.info("formatTime is: " + formatTime);
+        LocalDateTime dateTime = LocalDateTime.parse(newTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        return courseService.updateCourseTimeById(dateTime, courseId);
     }
 
     @GetMapping("/getTotalFeeForToday")
