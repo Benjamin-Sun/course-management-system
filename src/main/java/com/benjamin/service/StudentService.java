@@ -5,6 +5,8 @@ import com.benjamin.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StudentService {
 
@@ -28,5 +30,9 @@ public class StudentService {
 
     public int removeStudent(String studentName) {
         return studentRepository.updateStudentStatusByName(studentName);
+    }
+
+    public List<Student> getAllStudents() {
+        return studentRepository.findAll();
     }
 }

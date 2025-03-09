@@ -5,6 +5,8 @@ import com.benjamin.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin
 @RestController
 @RequestMapping("student")
@@ -29,5 +31,11 @@ public class StudentController {
     @ResponseBody
     public int removeStudent(String studentName) {
         return studentService.removeStudent(studentName);
+    }
+
+    @GetMapping("/getAllStudents")
+    @ResponseBody
+    public List<Student> getAllStudents() {
+        return studentService.getAllStudents();
     }
 }

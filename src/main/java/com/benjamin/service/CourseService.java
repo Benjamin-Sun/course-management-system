@@ -3,6 +3,7 @@ package com.benjamin.service;
 import com.benjamin.dto.CourseTimeDto;
 import com.benjamin.repository.CourseRepository;
 import com.benjamin.entity.Course;
+import com.benjamin.repository.ScheduleRepository;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +19,12 @@ import java.util.stream.Collectors;
 public class CourseService {
 
     private static final Logger log = LoggerFactory.getLogger(CourseService.class);
+
     @Autowired
     CourseRepository courseRepository;
+
+    @Autowired
+    ScheduleRepository scheduleRepository;
 
     public int updateCourseStatusById(int courseId, int courseStatus) {
         return courseRepository.updateCourseStatusById(courseId, courseStatus);
@@ -38,7 +43,9 @@ public class CourseService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public void removeCourse(List<Integer> courseId) {
+        scheduleRepository.deleteByCourseIds(courseId);
         courseRepository.deleteAllById(courseId);
     }
 

@@ -56,7 +56,8 @@ public class CourseController {
 
     @PostMapping("/removeCourse")
     @ResponseBody
-    public void removeCourse(List<Integer> courseIdList) {
+    public void removeCourse(@RequestBody List<Integer> courseIdList) {
+        log.info("course Id List is: " + courseIdList.toString());
         courseService.removeCourse(courseIdList);
     }
 
@@ -85,7 +86,7 @@ public class CourseController {
 //                .atZone(ZoneId.systemDefault())
 //                .toLocalDateTime();
 //        log.info("formatTime is: " + formatTime);
-        LocalDateTime dateTime = LocalDateTime.parse(newTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime dateTime = LocalDateTime.parse(newTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         return courseService.updateCourseTimeById(dateTime, courseId);
     }
 

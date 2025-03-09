@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
+//http://homeassistant.local:8123/config/integrations/dashboard
 @CrossOrigin
 @RestController
 @RequestMapping("schedule")

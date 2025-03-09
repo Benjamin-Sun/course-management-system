@@ -4,6 +4,7 @@ import com.benjamin.dto.ScheduleCourseDto;
 import com.benjamin.dto.StudentCourseScheduleDto;
 import com.benjamin.entity.Schedule;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -42,5 +43,9 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
             @Param("year") int year,
             @Param("month") int month
     );
+
+    @Modifying
+    @Query("DELETE FROM Schedule s WHERE s.courseId IN :courseIds")
+    void deleteByCourseIds(@Param("courseIds") List<Integer> courseIds);
 
 }
